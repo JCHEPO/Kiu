@@ -1,8 +1,19 @@
 let listaAmigos =[];
 
-function ElementoTextoFun (elemento,texto) {
+function elementoTextoFun (elemento,texto) {
     let elementoHTML = document.querySelector(elemento);
     elementoHTML.innerHTML=texto;
+}
+
+function mostrarListaAmigos(){
+    let mostrarAmigos = document.getElementById('listaAmigos')
+    mostrarAmigos.innerHTML = ""; // asegurarse esté limpia antes de ingresar nuevo valor
+
+    for(let i=0; i<listaAmigos.length; i++){   
+        let li = document.createElement("li");
+        li.textContent = listaAmigos[i];
+        mostrarAmigos.appendChild(li);
+    }
 }
 
 function agregarAmigo() {
@@ -10,8 +21,8 @@ function agregarAmigo() {
 
     if (nombre === ""){   // verificar que la casilla esté vacia
 
-        ElementoTextoFun('p', 'El campo está vacio, ingresa un nombre');
-    return
+        elementoTextoFun('p', 'El campo está vacio, ingresa un nombre');
+        return
     }
         
     if(listaAmigos.includes(nombre)){ // alert si el nombre ya está en la lista
@@ -20,7 +31,10 @@ function agregarAmigo() {
         listaAmigos.push(nombre);
         console.log(listaAmigos);
         limpiarCampo();
-        ElementoTextoFun('p', `tienes a ${listaAmigos}`);
+        elementoTextoFun('h3','Tu lista de amigos');
+
+        mostrarListaAmigos();
+
         }
     return;
 }
@@ -36,6 +50,6 @@ function sortearAmigo(){
         let indice=Math.floor(Math.random()*(listaAmigos.length-1))+1; // generar un indice dentro del array
         console.log(indice); 
         console.log(listaAmigos[indice]);
-        ElementoTextoFun('h2', `Tu amigo secreto es ${listaAmigos[indice]}`);
+        elementoTextoFun('h2', `Tu amigo secreto es <strong>${listaAmigos[indice]}!</strong> `);
     }
 }
