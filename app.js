@@ -21,7 +21,7 @@ function agregarAmigo() {
 
     if (nombre === ""){   // verificar que la casilla esté vacia
 
-        elementoTextoFun('p', 'El campo está vacio, ingresa un nombre');
+        alert('El campo está vacio, ingresa un nombre');
         return
     }
         
