@@ -47,7 +47,7 @@ function sortearAmigo(){
     if(listaAmigos.length===0) {
         alert("Tu lista de amigos está vacia");
     } else {
-        let indice=Math.floor(Math.random()*(listaAmigos.length-1))+1; // generar un indice dentro del array
+        let indice=Math.floor(Math.random()*(listaAmigos.length)); // generar un indice dentro del array
         console.log(indice); 
         console.log(listaAmigos[indice]);
         elementoTextoFun('h2', `Tu amigo secreto es <strong>${listaAmigos[indice]}!</strong> `);
