@@ -9,7 +9,7 @@ function agregarAmigo() {
     let nombre = document.getElementById('amigo').value.trim();
 
     if (nombre === ""){   // verificar que la casilla esté vacia
-        elementoTextoFun('p', 'Ingresa un nombre');
+        ElementoTextoFun('p', 'Ingresa un nombre');
         return
     }
         
@@ -19,6 +19,7 @@ function agregarAmigo() {
         listaAmigos.push(nombre);
         console.log(listaAmigos);
         limpiarCampo();
+        ElementoTextoFun('p', `tienes a ${listaAmigos}`);
         }
     return;
 }
