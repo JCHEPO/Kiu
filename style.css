@@ -187,6 +187,9 @@ ul {
 .MostrarListaAmigos{
     padding: 20px ;
     color: var(--color-button-hover);
-    size: 24px;
+    size: 20px;
+    font-family: "Inter", sans-serif;
+
 }
+
 
