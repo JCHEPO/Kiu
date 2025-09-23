@@ -9,8 +9,9 @@ function agregarAmigo() {
     let nombre = document.getElementById('amigo').value.trim();
 
     if (nombre === ""){   // verificar que la casilla esté vacia
-        ElementoTextoFun('p', 'Ingresa un nombre');
-        return
+
+        ElementoTextoFun('p', 'El campo está vacio, ingresa un nombre');
+    return
     }
         
     if(listaAmigos.includes(nombre)){ // alert si el nombre ya está en la lista
@@ -28,7 +29,6 @@ function limpiarCampo(){
     let valorCampo = document.querySelector('#amigo').value="";
 }
 
-
 function sortearAmigo(){
     if(listaAmigos.length===0) {
         alert("Tu lista de amigos está vacia");
@@ -39,4 +39,3 @@ function sortearAmigo(){
         ElementoTextoFun('h2', `Tu amigo secreto es ${listaAmigos[indice]}`);
     }
 }
-

@@ -69,6 +69,21 @@ body {
     margin: 10px 0;
     text-align: center;
 }
+.texto__parrafo {
+    font-family: "Inter", serif;
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--color-button-hover);
+
+}
+
+
+.section-parrafo {
+    font-family: "Inter", serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--color-button-hover)
+}
 
 .section-parrafo {
     font-family: "Inter", serif;
@@ -167,3 +182,4 @@ ul {
 .button-draw:hover {
     background-color: var(--color-button-hover);
 }
+
