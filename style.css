@@ -78,6 +78,20 @@ body {
 }
 
 
+.section-parrafo {
+    font-family: "Inter", serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--color-button-hover)
+}
+
+.section-parrafo {
+    font-family: "Inter", serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--color-button-hover)
+}
+
 /* Contenedores de entrada y botón */
 .input-wrapper {
     display: flex;
@@ -140,6 +154,7 @@ ul {
     font-family: "Inter", sans-serif;
     font-size: 18px;
     margin: 20px 0;
+    margin-top: 0;
 }
 
 .result-list {
@@ -167,5 +182,11 @@ ul {
 
 .button-draw:hover {
     background-color: var(--color-button-hover);
+}
+
+.MostrarListaAmigos{
+    padding: 20px ;
+    color: var(--color-button-hover);
+    size: 24px;
 }
 
