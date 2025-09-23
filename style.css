@@ -78,6 +78,13 @@ body {
 }
 
 
+.section-parrafo {
+    font-family: "Inter", serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--color-button-hover)
+}
+
 /* Contenedores de entrada y botón */
 .input-wrapper {
     display: flex;
