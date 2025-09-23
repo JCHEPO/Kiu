@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-function textoElemento (elemento,texto){
-    let titulo = documents.querySelector();
-    titulo.innerHTML = texto;
-}
-
-let listaAmigos = [];
-=======
 let listaAmigos =[];
 
 function ElementoTextoFun (elemento,texto) {
@@ -13,12 +5,11 @@ function ElementoTextoFun (elemento,texto) {
     elementoHTML.innerHTML=texto;
 }
 
->>>>>>> secundaria
 function agregarAmigo() {
     let nombre = document.getElementById('amigo').value.trim();
 
     if (nombre === ""){   // verificar que la casilla esté vacia
-        ElementoTextoFun('p', 'Ingresa un nombre');
+        ElementoTextoFun('p', 'El campo está vacio, ingresa un nombre');
         return
     }
         
@@ -35,8 +26,6 @@ function agregarAmigo() {
 
 function limpiarCampo(){
     let valorCampo = document.querySelector('#amigo').value="";
-<<<<<<< HEAD
-=======
 }
 
 
@@ -49,6 +38,4 @@ function sortearAmigo(){
         console.log(listaAmigos[indice]);
         ElementoTextoFun('h2', `Tu amigo secreto es ${listaAmigos[indice]}`);
     }
->>>>>>> secundaria
 }
-
