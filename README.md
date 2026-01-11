@@ -1,6 +1,8 @@
 # Kiu - App de Eventos
 
-Aplicación web para gestión de eventos con autenticación de usuarios.
+Aplicación web para gestión de eventos con autenticación de usuarios. 
+Usuarios podran buscar y crear eventos. Los eventos, los creadores (host) y participantes serán rankeados con puntuacion del 1 al 10. Los eventos serán visibles para usuarios registrados, pero no sus detalles (Solo el nombre del evento y ciudad. Datos como hora, punto de encuentro y requisitos seran silenciados). Tambien habran descripciones para eventos.
+Existira un lugar para q organizaciones (cafeterias, bar, instituciones publicas) paguen para promover sus eventos. Esto conllevara mas visibilidad.
 
 ## Requisitos
 
