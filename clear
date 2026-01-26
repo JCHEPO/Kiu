@@ -1,0 +1,41 @@
+[33mcommit d7e0927bb3bb5982e125cd22f3c318d7e6eb8141[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32msecundaria[m[33m, [m[1;31morigin/secundaria[m[33m)[m
+Author: Juan Chepo <juanmanuelcheporivas@gmail.com>
+Date:   Thu Aug 21 20:42:59 2025 -0400
+
+    agregue amigo seleccionado en pantalla. Falta modificar parrafo en html
+
+[33mcommit 73c57dddf070d1fe87204d3a199bad7e583be42c[m
+Author: Juan Chepo <juanmanuelcheporivas@gmail.com>
+Date:   Thu Aug 21 20:29:06 2025 -0400
+
+    agregue generador random para indice/amigo
+
+[33mcommit 1f30ee9977bd35ff68af0231aa3dcb8e37e129b9[m
+Author: Juan Chepo <juanmanuelcheporivas@gmail.com>
+Date:   Wed Aug 20 17:55:00 2025 -0400
+
+    Implementar funcion agregar amigos a array
+
+[33mcommit ceb04cc55c536797dfc5dcf8429c600f8011e5ab[m
+Author: Juan Chepo <juanmanuelcheporivas@gmail.com>
+Date:   Wed Aug 20 00:39:12 2025 -0400
+
+    falta sacar comillas, posicion 0 array
+
+[33mcommit 45754ec1cd4c0f1a424cec8904ceb8fc87d23d47[m
+Author: Juan Chepo <juanmanuelcheporivas@gmail.com>
+Date:   Tue Aug 19 22:40:31 2025 -0400
+
+    agregue validacion de entrada
+
+[33mcommit 149742147a8f3fe8b54c1539fa63c0c208c6906d[m
+Author: Juan Chepo <juanmanuelcheporivas@gmail.com>
+Date:   Tue Aug 19 22:29:38 2025 -0400
+
+    Capture valor entrada app.js
+
+[33mcommit 1a09797e57fead7c703fac880546883c9311378b[m
+Author: Juan Chepo <juanmanuelcheporivas@gmail.com>
+Date:   Tue Aug 19 19:28:26 2025 -0400
+
+    primer commit, subiendo archivos
