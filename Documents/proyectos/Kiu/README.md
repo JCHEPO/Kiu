@@ -54,8 +54,7 @@ Aplicación web para gestión de eventos con autenticación de usuarios.
 ## Funcionalidades
 
 - Registro e inicio de sesión.
-- Roles: Todos nuevos usuarios son "participante". Roles avanzados se asignan manualmente.
-- Creación de eventos (solo para "creador").
+- Creación de eventos (todos los usuarios logueados).
 - Lista de eventos disponibles con detalles.
 
 ## Notas

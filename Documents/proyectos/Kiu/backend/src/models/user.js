@@ -5,7 +5,6 @@ const UserSchema = new mongoose.Schema({
   password: { type: String, required: true },
   nombre: String,
   apellido: String,
-  rol: { type: String, enum: ["creador", "participante", "mediador"], default: "participante" },
   fechaRegistro: { type: Date, default: Date.now },
   strikes: { type: Number, default: 0 },
   activo: { type: Boolean, default: true }

@@ -14,8 +14,8 @@ router.get("/", authenticate, async (req, res) => {
   }
 });
 
-// POST /api/events - Crear evento (solo creadores)
-router.post("/", authenticate, authorize(["creador"]), async (req, res) => {
+// POST /api/events - Crear evento (todos los usuarios logueados)
+router.post("/", authenticate, async (req, res) => {
   const { title, date, description, location, maxParticipants } = req.body;
   try {
     const event = await Event.create({
