@@ -8,6 +8,16 @@ const UserSchema = new mongoose.Schema({
   fechaRegistro: { type: Date, default: Date.now },
   strikes: { type: Number, default: 0 },
   activo: { type: Boolean, default: true }
+}, {
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
+});
+
+// Virtual para nombre completo
+UserSchema.virtual("name").get(function() {
+  return this.nombre && this.apellido
+    ? `${this.nombre} ${this.apellido}`
+    : this.nombre || this.email.split("@")[0];
 });
 
 export default mongoose.model("User", UserSchema);

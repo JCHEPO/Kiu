@@ -6,7 +6,20 @@ const EventSchema = new mongoose.Schema({
   description: { type: String, required: true },
   location: { type: String, required: true },
   maxParticipants: { type: Number, required: true },
+  category: String,
+  subcategory: String,
+  cost: { type: Number, default: 0 },
   creator: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  participants: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  messages: [{
+    sender: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    text: { type: String, required: true },
+    createdAt: { type: Date, default: Date.now }
+  }],
+  items: [{
+    name: { type: String, required: true },
+    claimedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: null }
+  }],
   createdAt: { type: Date, default: Date.now }
 });
 

@@ -1,0 +1,651 @@
+import React, { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+
+// LoginModal with login + register views
+function LoginModal({ onClose, onLoginSuccess }) {
+  const { login } = useContext(AuthContext);
+  const [view, setView] = useState("login");
+  const [form, setForm] = useState({});
+  const [error, setError] = useState("");
+
+  const switchView = (newView) => {
+    setView(newView);
+    setForm({});
+    setError("");
+  };
+
+  const handleLogin = async () => {
+    setError("");
+    try {
+      const res = await fetch("http://localhost:3000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: form.email, password: form.password })
+      });
+      const data = await res.json();
+      if (data.error) {
+        setError(data.error);
+        return;
+      }
+      login(data);
+      onLoginSuccess();
+    } catch (err) {
+      setError("Error de conexión");
+    }
+  };
+
+  const handleRegister = async () => {
+    setError("");
+    try {
+      const res = await fetch("http://localhost:3000/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form)
+      });
+      const data = await res.json();
+      if (data.error) {
+        setError(data.error);
+        return;
+      }
+      // Auto-login after register
+      const loginRes = await fetch("http://localhost:3000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: form.email, password: form.password })
+      });
+      const loginData = await loginRes.json();
+      if (loginData.error) {
+        setError(loginData.error);
+        return;
+      }
+      login(loginData);
+      onLoginSuccess();
+    } catch (err) {
+      setError("Error de conexión");
+    }
+  };
+
+  const modalStyles = {
+    overlay: {
+      position: "fixed",
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: "rgba(0,0,0,0.6)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      zIndex: 1000
+    },
+    modal: {
+      background: "#fff",
+      borderRadius: "16px",
+      padding: "40px",
+      width: "400px",
+      maxWidth: "90vw",
+      position: "relative",
+      boxShadow: "0 20px 60px rgba(0,0,0,0.3)"
+    },
+    closeBtn: {
+      position: "absolute",
+      top: "15px",
+      right: "20px",
+      background: "none",
+      border: "none",
+      fontSize: "24px",
+      cursor: "pointer",
+      color: "#999"
+    },
+    title: {
+      fontSize: "28px",
+      fontWeight: 900,
+      marginBottom: "8px",
+      fontFamily: '"Bricolage Grotesque", system-ui, sans-serif',
+      textAlign: "center"
+    },
+    subtitle: {
+      fontSize: "14px",
+      color: "#666",
+      marginBottom: "25px",
+      textAlign: "center",
+      fontFamily: '"Patrick Hand", "Comic Sans MS", system-ui, cursive'
+    },
+    input: {
+      width: "100%",
+      padding: "12px 15px",
+      border: "2px solid #ddd",
+      borderRadius: "8px",
+      fontSize: "16px",
+      marginBottom: "12px",
+      boxSizing: "border-box",
+      fontFamily: '"Patrick Hand", "Comic Sans MS", system-ui, cursive',
+      outline: "none"
+    },
+    button: {
+      width: "100%",
+      padding: "14px",
+      backgroundColor: "#000",
+      color: "#fff",
+      border: "none",
+      borderRadius: "8px",
+      fontSize: "18px",
+      fontWeight: "bold",
+      cursor: "pointer",
+      fontFamily: '"Bricolage Grotesque", system-ui, sans-serif',
+      marginBottom: "12px"
+    },
+    socialSection: {
+      textAlign: "center",
+      marginTop: "15px",
+      paddingTop: "15px",
+      borderTop: "1px solid #eee"
+    },
+    socialText: {
+      fontSize: "13px",
+      color: "#999",
+      marginBottom: "12px"
+    },
+    socialButtons: {
+      display: "flex",
+      gap: "10px",
+      justifyContent: "center"
+    },
+    socialBtn: {
+      padding: "10px 20px",
+      border: "2px solid #ddd",
+      borderRadius: "8px",
+      background: "#fff",
+      cursor: "pointer",
+      fontSize: "14px",
+      fontWeight: "bold"
+    },
+    error: {
+      color: "#ff4444",
+      fontSize: "14px",
+      marginBottom: "12px",
+      textAlign: "center"
+    },
+    switchLink: {
+      textAlign: "center",
+      marginTop: "15px",
+      fontSize: "14px",
+      color: "#666",
+      fontFamily: '"Patrick Hand", "Comic Sans MS", system-ui, cursive'
+    },
+    link: {
+      color: "#007bff",
+      cursor: "pointer",
+      textDecoration: "underline",
+      background: "none",
+      border: "none",
+      fontSize: "14px",
+      fontFamily: '"Patrick Hand", "Comic Sans MS", system-ui, cursive'
+    }
+  };
+
+  return (
+    <div style={modalStyles.overlay} onClick={onClose}>
+      <div style={modalStyles.modal} onClick={e => e.stopPropagation()}>
+        <button style={modalStyles.closeBtn} onClick={onClose}>x</button>
+
+        {view === "login" ? (
+          <>
+            <div style={modalStyles.title}>Iniciar Sesion</div>
+            <div style={modalStyles.subtitle}>
+              Registrate para conocer todos los eventos o crear los tuyos propios
+            </div>
+
+            {error && <div style={modalStyles.error}>{error}</div>}
+
+            <input
+              style={modalStyles.input}
+              placeholder="Email"
+              type="email"
+              onChange={e => setForm({ ...form, email: e.target.value })}
+            />
+            <input
+              style={modalStyles.input}
+              placeholder="Contrasena"
+              type="password"
+              onChange={e => setForm({ ...form, password: e.target.value })}
+            />
+            <button style={modalStyles.button} onClick={handleLogin}>
+              Iniciar Sesion
+            </button>
+
+            <div style={modalStyles.socialSection}>
+              <div style={modalStyles.socialText}>o inicia sesion con</div>
+              <div style={modalStyles.socialButtons}>
+                <button style={modalStyles.socialBtn}>Google</button>
+                <button style={modalStyles.socialBtn}>Facebook</button>
+              </div>
+            </div>
+
+            <div style={modalStyles.switchLink}>
+              No tienes cuenta?{" "}
+              <button style={modalStyles.link} onClick={() => switchView("register")}>
+                Crear cuenta
+              </button>
+            </div>
+          </>
+        ) : (
+          <>
+            <div style={modalStyles.title}>Crear Cuenta</div>
+            <div style={modalStyles.subtitle}>
+              Completa tus datos para unirte a la comunidad
+            </div>
+
+            {error && <div style={modalStyles.error}>{error}</div>}
+
+            <input
+              style={modalStyles.input}
+              placeholder="Nombre"
+              onChange={e => setForm({ ...form, nombre: e.target.value })}
+            />
+            <input
+              style={modalStyles.input}
+              placeholder="Apellido"
+              onChange={e => setForm({ ...form, apellido: e.target.value })}
+            />
+            <input
+              style={modalStyles.input}
+              placeholder="Email"
+              type="email"
+              onChange={e => setForm({ ...form, email: e.target.value })}
+            />
+            <input
+              style={modalStyles.input}
+              placeholder="Contrasena"
+              type="password"
+              onChange={e => setForm({ ...form, password: e.target.value })}
+            />
+            <button style={modalStyles.button} onClick={handleRegister}>
+              Registrarse
+            </button>
+
+            <div style={modalStyles.switchLink}>
+              Ya tienes cuenta?{" "}
+              <button style={modalStyles.link} onClick={() => switchView("login")}>
+                Iniciar sesion
+              </button>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// Card component for events grid
+function EventPostItCard({ event, isLoggedIn }) {
+  const getCardGradient = () => {
+    if (event.category === "Partido") {
+      return "linear-gradient(135deg, #A9FF68, #FF8989)";
+    }
+    if (event.category === "Evento") {
+      return "linear-gradient(135deg, #145277, #83D0CB)";
+    }
+    if (event.category === "Social") {
+      return "linear-gradient(135deg, #84FFC9, #AAB2FF, #ECA0FF)";
+    }
+    return "linear-gradient(135deg, #e0e0e0, #f5f5f5)";
+  };
+
+  const isEvento = event.category === "Evento";
+  const cardWidth = isEvento ? 280 : 400;
+  const cardHeight = isEvento ? 497 : 250;
+
+  const currentParticipants = event.participants?.length || 0;
+  const maxParticipants = event.maxParticipants || 10;
+
+  const formatDate = (dateString) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+    return `${date.getDate()} de ${meses[date.getMonth()]}`;
+  };
+
+  const formatTime = (dateString) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+  };
+
+  const cardStyles = {
+    card: {
+      width: `${cardWidth}px`,
+      height: `${cardHeight}px`,
+      background: getCardGradient(),
+      borderRadius: "20px",
+      padding: "25px",
+      position: "relative",
+      border: "3px solid #333",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-between",
+      overflow: "hidden",
+      cursor: "pointer",
+      transition: "transform 0.2s",
+      boxSizing: "border-box"
+    },
+    topSection: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "flex-start"
+    },
+    titleContainer: {
+      flex: 1
+    },
+    titleLine: {
+      fontSize: "22px",
+      fontWeight: 900,
+      color: "#000",
+      lineHeight: 1.1,
+      fontFamily: '"Bricolage Grotesque", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'
+    },
+    rating: {
+      fontSize: "28px",
+      fontWeight: "bold",
+      color: "#000",
+      fontFamily: '"Bricolage Grotesque", system-ui, sans-serif',
+      whiteSpace: "nowrap",
+      marginLeft: "10px"
+    },
+    bottomSection: {
+      fontSize: "14px",
+      fontWeight: "bold",
+      fontFamily: '"Bricolage Grotesque", system-ui, sans-serif',
+      color: "#000"
+    },
+    blurred: {
+      filter: "blur(5px)",
+      userSelect: "none",
+      pointerEvents: "none"
+    },
+    stampOverlay: {
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%) rotate(-15deg)",
+      width: "70%",
+      opacity: 0.6,
+      pointerEvents: "none",
+      zIndex: 2
+    }
+  };
+
+  return (
+    <div style={cardStyles.card}>
+      {/* Stamp overlay for visitor mode */}
+      {!isLoggedIn && (
+        <img
+          src="/assets/stamp.png"
+          alt=""
+          style={cardStyles.stampOverlay}
+        />
+      )}
+
+      {/* Top: Title + Participant Count */}
+      <div style={cardStyles.topSection}>
+        <div style={cardStyles.titleContainer}>
+          <div style={cardStyles.titleLine}>{event.title}</div>
+          {event.subcategory && (
+            <div style={{ ...cardStyles.titleLine, fontSize: "16px", marginTop: "4px", fontWeight: 700 }}>
+              {event.subcategory}
+            </div>
+          )}
+        </div>
+        <div style={cardStyles.rating}>{currentParticipants}/{maxParticipants}</div>
+      </div>
+
+      {/* Bottom: Date, Time, Location, Cost - blurred for visitors */}
+      <div style={{ ...cardStyles.bottomSection, ...(isLoggedIn ? {} : cardStyles.blurred) }}>
+        {event.location && <div>• {event.location}</div>}
+        {event.cost > 0 && <div>• ${event.cost} por persona</div>}
+        {event.date && (
+          <div style={{ textAlign: "right" }}>
+            <div>{formatDate(event.date)}</div>
+            <div>{formatTime(event.date)} horas</div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default function HomePage() {
+  const { auth, logout } = useContext(AuthContext);
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const navigate = useNavigate();
+
+  const isLoggedIn = !!auth;
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
+  const fetchEvents = async () => {
+    try {
+      const res = await fetch("http://localhost:3000/api/events");
+      const data = await res.json();
+      setEvents(data);
+    } catch (error) {
+      console.error("Error fetching events:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCardClick = (eventId) => {
+    if (isLoggedIn) {
+      navigate(`/event/${eventId}`);
+    } else {
+      setShowLoginModal(true);
+    }
+  };
+
+  const handleLoginSuccess = () => {
+    setShowLoginModal(false);
+    window.location.reload();
+  };
+
+  const styles = {
+    wrapper: {
+      minHeight: "100vh",
+      backgroundImage: "url('/assets/distorted-grid-line-png-pattern.jpg')",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundAttachment: "fixed",
+      backgroundColor: "#e8e8e8"
+    },
+    topBar: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      padding: "20px 40px",
+      background: "rgba(255,255,255,0.9)",
+      borderBottom: "3px solid #333"
+    },
+    logo: {
+      fontSize: "28px",
+      fontWeight: 900,
+      fontFamily: '"Bricolage Grotesque", system-ui, sans-serif',
+      color: "#000"
+    },
+    authButton: {
+      background: "#000",
+      color: "#fff",
+      border: "none",
+      padding: "10px 25px",
+      borderRadius: "8px",
+      fontSize: "16px",
+      fontWeight: "bold",
+      cursor: "pointer",
+      fontFamily: '"Bricolage Grotesque", system-ui, sans-serif'
+    },
+    content: {
+      padding: "40px"
+    },
+    header: {
+      textAlign: "center",
+      marginBottom: "50px"
+    },
+    title: {
+      fontSize: "48px",
+      fontWeight: 900,
+      marginBottom: "10px",
+      color: "#000",
+      fontFamily: '"Bricolage Grotesque", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'
+    },
+    subtitle: {
+      fontSize: "18px",
+      color: "#444",
+      fontFamily: '"Patrick Hand", "Comic Sans MS", system-ui, cursive'
+    },
+    buttonContainer: {
+      display: "flex",
+      gap: "15px",
+      justifyContent: "center",
+      marginTop: "25px"
+    },
+    btnAction: {
+      padding: "14px 30px",
+      background: "#fff",
+      color: "#000",
+      border: "3px solid #000",
+      borderRadius: "0px",
+      fontSize: "16px",
+      cursor: "pointer",
+      fontWeight: "bold",
+      fontFamily: '"Patrick Hand", "Comic Sans MS", system-ui, cursive',
+      boxShadow: "3px 3px 0 #000",
+      textTransform: "uppercase"
+    },
+    eventsSection: {
+      marginTop: "40px"
+    },
+    sectionTitle: {
+      fontSize: "32px",
+      fontWeight: 900,
+      marginBottom: "30px",
+      color: "#000",
+      fontFamily: '"Bricolage Grotesque", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+      textTransform: "uppercase"
+    },
+    eventsGrid: {
+      display: "flex",
+      flexWrap: "wrap",
+      gap: "30px",
+      justifyContent: "center"
+    },
+    emptyState: {
+      textAlign: "center",
+      padding: "60px 20px",
+      color: "#666"
+    },
+    loadingMessage: {
+      textAlign: "center",
+      fontSize: "24px",
+      fontWeight: 900,
+      color: "#000",
+      padding: "100px 40px",
+      fontFamily: '"Bricolage Grotesque", system-ui, sans-serif'
+    }
+  };
+
+  if (loading) {
+    return (
+      <div style={styles.wrapper}>
+        <div style={styles.loadingMessage}>Cargando eventos...</div>
+      </div>
+    );
+  }
+
+  return (
+    <div style={styles.wrapper}>
+      {/* Login Modal */}
+      {showLoginModal && (
+        <LoginModal
+          onClose={() => setShowLoginModal(false)}
+          onLoginSuccess={handleLoginSuccess}
+        />
+      )}
+
+      {/* Top Bar */}
+      <div style={styles.topBar}>
+        <div style={styles.logo}>Kiu</div>
+        {isLoggedIn ? (
+          <button style={styles.authButton} onClick={logout}>
+            Cerrar Sesion
+          </button>
+        ) : (
+          <button style={styles.authButton} onClick={() => setShowLoginModal(true)}>
+            Iniciar Sesion
+          </button>
+        )}
+      </div>
+
+      {/* Content */}
+      <div style={styles.content}>
+        <div style={styles.header}>
+          <h1 style={styles.title}>Kiu</h1>
+          <p style={styles.subtitle}>Crea y descubre eventos en tu comunidad</p>
+
+          <div style={styles.buttonContainer}>
+            {isLoggedIn ? (
+              <>
+                <button
+                  style={styles.btnAction}
+                  onClick={() => navigate("/create-event")}
+                >
+                  Crear Evento
+                </button>
+                <button
+                  style={styles.btnAction}
+                  onClick={() => document.getElementById("events-section")?.scrollIntoView({ behavior: "smooth" })}
+                >
+                  Explorar
+                </button>
+              </>
+            ) : (
+              <button
+                style={styles.btnAction}
+                onClick={() => setShowLoginModal(true)}
+              >
+                Iniciar Sesion
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Events Grid */}
+        <div style={styles.eventsSection} id="events-section">
+          <h2 style={styles.sectionTitle}>Eventos Disponibles</h2>
+
+          {events.length === 0 ? (
+            <div style={styles.emptyState}>
+              <p style={{ fontSize: "18px", fontFamily: '"Patrick Hand", "Comic Sans MS", system-ui, cursive' }}>
+                No hay eventos aun. Se el primero en crear uno.
+              </p>
+            </div>
+          ) : (
+            <div style={styles.eventsGrid}>
+              {events.map(event => (
+                <div
+                  key={event._id}
+                  onClick={() => handleCardClick(event._id)}
+                >
+                  <EventPostItCard event={event} isLoggedIn={isLoggedIn} />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
