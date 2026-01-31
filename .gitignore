@@ -1,0 +1,23 @@
+node_modules/
+.env
+*.log
+.DS_Store
+dist/
+build/
+
+# IDE / tools
+.vscode/
+.claude/
+
+# Archivos temporales y de sesion
+*.txt
+*.ps1
+nul
+clear
+
+# Archivos sueltos que no son parte del proyecto
+app.js
+index.html
+style.css
+HomePage_V1_from_session.jsx
+Documents/
