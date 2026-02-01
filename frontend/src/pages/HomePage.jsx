@@ -271,7 +271,7 @@ function LoginModal({ onClose, onLoginSuccess }) {
                 Genero
               </div>
               <div style={{ display: "flex", gap: "8px" }}>
-                {["Hombre", "Mujer", "LGTBQ+"].map(g => (
+                {["Femenino", "Masculino", "Sin especificar"].map(g => (
                   <button
                     key={g}
                     type="button"
